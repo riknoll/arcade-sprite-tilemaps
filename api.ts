@@ -1,3 +1,5 @@
+//% block="Sprite TileMaps"
+//% color="#73643d"
 namespace spriteTileMaps {
     const TILEMAP_EXTENSION_KEY = "$spriteTileMaps_TILEMAP";
 
