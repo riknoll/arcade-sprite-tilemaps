@@ -7,14 +7,14 @@ namespace spriteTileMaps {
     //% block="$sprite tilemap"
     //% sprite.shadow=variables_get
     //% sprite.defl=mySprite
-    export function getTileMapForSprite(sprite: Sprite): tiles.TileMap {
+    export function getTileMapForSprite(sprite: Sprite): tiles.TileMapData {
         const existing: tiles.TileMap = sprite.data[TILEMAP_EXTENSION_KEY];
 
         if (existing) {
-            return existing;
+            return existing.data;
         }
         else {
-            return game.currentScene().tileMap;
+            return game.currentScene().tileMap.data;
         }
     }
 
