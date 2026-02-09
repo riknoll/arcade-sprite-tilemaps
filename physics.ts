@@ -9,9 +9,9 @@ namespace spriteTileMaps {
         })
 
         const newEngine = new SpriteTileMapPhysicsEngine();
-        game.currentScene().physicsEngine = newEngine        
+        game.currentScene().physicsEngine = newEngine
     }
-    
+
     export class SpriteTileMapPhysicsEngine extends ArcadePhysicsEngine {
         constructor(maxVelocity = 500, minSingleStep = 2, maxSingleStep = 4) {
             super(maxVelocity, minSingleStep, maxSingleStep);
@@ -19,7 +19,7 @@ namespace spriteTileMaps {
 
         addSprite(sprite: Sprite) {
             this.sprites.push(sprite);
-            const tm = getTileMapForSprite(sprite);
+            const tm = getInternalTilemapForSprite(sprite);
             if (tm && tm.isOnWall(sprite)) {
                 sprite.flags |= sprites.Flag.IsClipping;
             }
@@ -106,7 +106,7 @@ namespace spriteTileMaps {
                     if (!(s.flags & SPRITE_NO_SPRITE_OVERLAPS)) {
                         this.map.insertAABB(s);
                     }
-                    const tileMap = getTileMapForSprite(s);
+                    const tileMap = getInternalTilemapForSprite(s);
                     if (tileMap && tileMap.enabled) {
                         this.tilemapCollisions(ms, tileMap);
                     }
@@ -139,7 +139,7 @@ namespace spriteTileMaps {
             s._y = Fx.add(s._y, dy);
 
             // if the sprite can collide with things, check tile map
-            const tm = getTileMapForSprite(s);
+            const tm = getInternalTilemapForSprite(s);
             if (tm && tm.enabled) {
                 const maxDist = Fx.toInt(this.maxSingleStep);
                 // only check tile map if moving within a single step
@@ -163,6 +163,17 @@ namespace spriteTileMaps {
                     s.flags &= ~sprites.Flag.IsClipping;
                 }
             }
+        }
+    }
+
+    export function getInternalTilemapForSprite(sprite: Sprite): tiles.TileMap {
+        const existing: tiles.TileMap = sprite.data[spriteTileMaps._TILEMAP_EXTENSION_KEY];
+
+        if (existing) {
+            return existing;
+        }
+        else {
+            return game.currentScene().tileMap;
         }
     }
 }

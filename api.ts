@@ -1,14 +1,14 @@
 //% block="Sprite TileMaps"
 //% color="#73643d"
 namespace spriteTileMaps {
-    const TILEMAP_EXTENSION_KEY = "$spriteTileMaps_TILEMAP";
+    export const _TILEMAP_EXTENSION_KEY = "$spriteTileMaps_TILEMAP";
 
     //% blockId=spriteTileMaps_getTileMapForSprite
     //% block="$sprite tilemap"
     //% sprite.shadow=variables_get
     //% sprite.defl=mySprite
     export function getTileMapForSprite(sprite: Sprite): tiles.TileMapData {
-        const existing: tiles.TileMap = sprite.data[TILEMAP_EXTENSION_KEY];
+        const existing: tiles.TileMap = sprite.data[_TILEMAP_EXTENSION_KEY];
 
         if (existing) {
             return existing.data;
@@ -27,6 +27,6 @@ namespace spriteTileMaps {
         const map = new tiles.TileMap();
         map.setData(tilemap);
         map.renderable.destroy();
-        sprite.data[TILEMAP_EXTENSION_KEY] = map;
+        sprite.data[_TILEMAP_EXTENSION_KEY] = map;
     }
 }
